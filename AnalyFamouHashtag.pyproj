@@ -4,14 +4,14 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>93ea4ea6-6eb8-474c-aaa4-854139ab68b0</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>AnalyFamouHashtag.py</StartupFile>
+    <StartupFile>InstagramTest.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>AnalyFamouHashtag</Name>
     <RootNamespace>AnalyFamouHashtag</RootNamespace>
-    <InterpreterId>MSBuild|envConnectSns|$(MSBuildProjectFullPath)</InterpreterId>
+    <InterpreterId>MSBuild|envCrawling|$(MSBuildProjectFullPath)</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,13 +22,18 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AnalyFamouHashtag.py" />
+    <Compile Include="CrawlingInstagramMng.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InstagramTest.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Interpreter Include="envConnectSns\">
-      <Id>envConnectSns</Id>
+    <Interpreter Include="envCrawling\">
+      <Id>envCrawling</Id>
       <Version>3.7</Version>
-      <Description>envConnectSns (Python 3.7 (64-bit))</Description>
+      <Description>envCrawling (Python 3.7 (64-bit))</Description>
       <InterpreterPath>Scripts\python.exe</InterpreterPath>
       <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
       <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
