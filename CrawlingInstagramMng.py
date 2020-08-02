@@ -20,7 +20,7 @@ class CrawlingInstagramMng(object):
         self.strChromdriverPath = strChromdriverPath
         
         options = Options()
-        options.headless = True
+        options.headless = False
 
         self.driver = wd.Chrome(executable_path=self.strChromdriverPath, options=options)
         
@@ -33,7 +33,7 @@ class CrawlingInstagramMng(object):
         self.driver.close()
         #default option
         options = Options()
-        options.headless = True
+        options.headless = False
         self.driver = wd.Chrome(executable_path=strPath, options=options)
 
     def GetChromdriver() :
@@ -97,10 +97,10 @@ class CrawlingInstagramMng(object):
         data = [content, date, like, place, tags]
         return data
 
-
+    #해당 토큰의 개수를 카운트한다(읽어온 게시글 확인용!!)
     def find_content(self, strCss):
         # 1. 현재 페이지의 HTML 정보 가져오기
         html = self.driver.page_source
         soup = BeautifulSoup(html, 'lxml')    
         
-        return strhtml.count(strCss)
+        return  len(soup.select(strCss))
