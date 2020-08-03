@@ -66,6 +66,9 @@ class CrawlingInstagramMng(object):
     
     
     def get_content(self):
+        #get_content()
+        # return [게시글, 올린 날짜, 좋아요 개수, 지정 위치, 해쉬태그]
+
         # 1. 현재 페이지의 HTML 정보 가져오기
         html = self.driver.page_source
         soup = BeautifulSoup(html, 'lxml')    
@@ -94,8 +97,22 @@ class CrawlingInstagramMng(object):
         except:
             place = ''
         
+
+        #self.close_content()
+
         data = [content, date, like, place, tags]
         return data
+
+    def close_content(self):
+        
+        self.select_first('div.QBdPU')
+
+    def move_next(self):
+        right = self.driver.find_element_by_css_selector('a._65Bje.coreSpriteRightPaginationArrow') 
+        right.click()
+        time.sleep(3)
+
+
 
     #해당 토큰의 개수를 카운트한다(읽어온 게시글 확인용!!)
     def find_content(self, strCss):
