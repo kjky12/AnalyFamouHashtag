@@ -344,3 +344,5 @@ ASALocalRun/
 healthchecksdb
 /#info
 /envCrawling
+/InstagramHash
+/config.ini

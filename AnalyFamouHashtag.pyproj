@@ -22,10 +22,16 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ConfigIni.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="CrawlingInstagramMng.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InstagramTest.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UtillFileDirectot.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

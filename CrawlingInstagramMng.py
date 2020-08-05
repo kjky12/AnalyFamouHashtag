@@ -1,3 +1,5 @@
+#-*-coding:utf-8-*-
+
 import requests
 
 from bs4 import BeautifulSoup
@@ -10,6 +12,10 @@ from selenium.webdriver.support import expected_conditions as EC
 
 import time
 import re
+
+
+import UtillFileDirectot
+
 
 
 class CrawlingInstagramMng(object):
@@ -55,7 +61,7 @@ class CrawlingInstagramMng(object):
     def searchKeyword(self, strkeyword):
         url = "https://www.instagram.com/explore/tags/{}/".format(strkeyword)
         self.driver.get(url)
-        time.sleep(1)
+        time.sleep(3)
 
 
     def select_first(self, strCss):
@@ -74,7 +80,7 @@ class CrawlingInstagramMng(object):
         soup = BeautifulSoup(html, 'lxml')    
         # 2. 본문 내용 가져오기
         try:  			#여러 태그중 첫번째([0]) 태그를 선택  
-            content = soup.select('div.C4VMK > span')[0].text 
+            content = str(soup.select('div.C4VMK > span')[0].text) 
         #첫 게시글 본문 내용이 <div class="C4VMK"> 임을 알 수 있다.
         #태그명이 div, class명이 C4VMK인 태그 아래에 있는 span 태그를 모두 선택.
         except:
@@ -83,34 +89,45 @@ class CrawlingInstagramMng(object):
         tags = re.findall(r'#[^\s#,\\]+', content) # content 변수의 본문 내용 중 #으로 시작하며, #뒤에 연속된 문자(공백이나 #, \ 기호가 아닌 경우)를 모두 찾아 tags 변수에 저장
         # 4. 작성 일자 가져오기
         try:
-            date = soup.select('time._1o9PC.Nzb55')[0]['datetime'][:10] #앞에서부터 10자리 글자
+            #date = soup.select('time._1o9PC.Nzb55')[0]['datetime'][:10] #앞에서부터 10자리 글자
+            date = str(soup.select('time._1o9PC.Nzb55')[0]['datetime']) #앞에서부터 10자리 글자
         except:
             date = ''
         # 5. 좋아요 수 가져오기
         try:
-            like = soup.select('div.Nm9Fw > button')[0].text[4:-1] 
+            like = str(soup.select('div.Nm9Fw > button')[0].text[4:-1]) 
         except:
             like = 0
         # 6. 위치 정보 가져오기
         try:
-            place = soup.select('div.JF9hh')[0].text
+            place = str(soup.select('div.JF9hh')[0].text)
         except:
             place = ''
         
 
         #self.close_content()
 
-        data = [content, date, like, place, tags]
+        data = [self.driver.current_url,content, date, like, place, tags]
+
+        
+
+        UtillFileDirectot.WriteCsv(UtillFileDirectot.GetCurrentYMD("InstagramHash"), data)
+
         return data
 
     def close_content(self):
         
         self.select_first('div.QBdPU')
 
+    #선택한 개시물 다음 게시물 선택
     def move_next(self):
-        right = self.driver.find_element_by_css_selector('a._65Bje.coreSpriteRightPaginationArrow') 
-        right.click()
-        time.sleep(3)
+        try :
+            right = self.driver.find_element_by_css_selector('a._65Bje.coreSpriteRightPaginationArrow') 
+            right.click()
+            time.sleep(3)
+            return True
+        except :
+            return False
 
 
 
