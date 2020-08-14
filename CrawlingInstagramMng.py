@@ -73,7 +73,8 @@ class CrawlingInstagramMng(object):
     
     def get_content(self):
         #get_content()
-        # return [게시글, 올린 날짜, 좋아요 개수, 지정 위치, 해쉬태그]
+        #현재 선택된 항목을 읽어온다.
+        # return [URL, 게시글, 올린 날짜, 좋아요 개수, 지정 위치, 해쉬태그]
 
         # 1. 현재 페이지의 HTML 정보 가져오기
         html = self.driver.page_source
@@ -138,3 +139,36 @@ class CrawlingInstagramMng(object):
         soup = BeautifulSoup(html, 'lxml')    
         
         return  len(soup.select(strCss))
+
+
+    def ReadAllLink(self) :
+        SCROLL_PAUSE_TIME = 1.0
+        reallink = []
+
+        while True :
+            pageString = self.driver.page_source
+            bsObj = BeautifulSoup(pageString, 'lxml')
+        
+            for link1 in bsObj.find_all(name='div', attrs={"class":"Nnq7C weEfm"}):
+                for i in range(3):
+                    title = link1.select('a')[i]
+                    real = title.attrs['href']
+                    reallink.append(real)
+
+            last_height = self.driver.execute_script('return document.body.scrollHeight')
+            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            time.sleep(SCROLL_PAUSE_TIME)
+            new_height = self.driver.execute_script("return document.body.scrollHeight")
+
+            if new_height == last_height:
+                self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                time.sleep(SCROLL_PAUSE_TIME)
+                new_height = self.driver.execute_script("return document.body.scrollHeight")
+
+                if new_height == last_height:
+                    break
+                else:
+                    last_height = new_height
+                    continue
+
+        return reallink;

@@ -4,13 +4,19 @@ import configparser
 from CrawlingInstagramMng import *
 import UtillFileDirectot
 
+from CSqlite3 import *
+
+#sqlc = CSqlite3()
+
+#데이터베이스 생성 및 테이블 추가 테스트!!
+#sqlc = CSqlite3()
+#sqlc.ConnectDb("INSTAGRAM")
+#sqlc.CreateTable("DOONSAN")
+
+ab= dd
+
 #인스타그램 데이터를 저장할 디렉토리를 만들어준다.
 UtillFileDirectot.CreateCurrentDateDiretory('InstagramHash')
-
-
-##with open('InstagramHash\\tes.csv', 'w', newline='') as file :
-#        writer = csv.writer(file)
-#        writer.writerow(['a','b','c'])
 
 
 
@@ -27,10 +33,19 @@ cimTemp = CrawlingInstagramMng("./chromedriver.exe")
 
 #cim.ConnectChromdriver()
 
-cimTemp.LoginInstagram(InstaId, examplePass)
+#cimTemp.LoginInstagram(InstaId, examplePass)
 
 
-cimTemp.searchKeyword("전민동") 
+cimTemp.searchKeyword("노은동맛집") 
+
+##키워드에 해당하는 모든 링크 입력!
+datalink = cimTemp.ReadAllLink()
+
+#여기서 데이터베이스에 링크를 모두 넣어줌...
+for link in datalink :    
+    link
+
+
 
 #nPostFind = cimTemp.find_content('div._9AhH0')
 

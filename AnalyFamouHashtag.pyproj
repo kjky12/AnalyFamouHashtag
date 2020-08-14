@@ -31,6 +31,9 @@
     <Compile Include="InstagramTest.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CSqlite3.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="UtillFileDirectot.py">
       <SubType>Code</SubType>
     </Compile>
