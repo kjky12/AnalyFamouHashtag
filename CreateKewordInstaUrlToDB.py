@@ -5,11 +5,18 @@ from CrawlingInstagramMng import *
 import UtillFileDirectot
 from CSqlite3 import *
 
-strSearchKeyword = "노은동맛집추천"
+##########################################
+####공통
+strSearchKeyword = "전민동맛집추천"
+#데이터 저장 기본 경로
+strSaveDataPath = "InstagramHash"
+#테이블 이름, 이미지 저장 경로
+strTableName = str()
+
 
 
 #인스타그램 데이터를 저장할 디렉토리를 만들어준다.
-UtillFileDirectot.CreateCurrentDateDiretory('InstagramHash')
+UtillFileDirectot.CreateCurrentDateDiretory(strSaveDataPath)
 
 cimTemp = CrawlingInstagramMng("./chromedriver.exe")
 
@@ -41,7 +48,7 @@ strTableName = configConvert[strSearchKeyword]['ER']
 ##########################################
 ####데이터베이스 생성 및 테이블 추가 테스트!!
 sqlc = CSqlite3()
-sqlc.ConnectDb("INSTAGRAM")
+sqlc.ConnectDb(strSaveDataPath + "\\INSTAGRAM")
 
 ##검색어_관련 테이블 생성
 try :

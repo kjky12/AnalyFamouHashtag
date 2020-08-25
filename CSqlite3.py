@@ -50,6 +50,7 @@ class CSqlite3(object):
         #url을 기본키로 설정한다.
         strQry = '''create table %s
             (INSTA_URL text PRIMARY KEY NOT NULL, 
+            INSTA_ID text,
             CONTENT text,
             CONTENT_DATE DATETIME,
             CONTENT_LIKE INTEGER,

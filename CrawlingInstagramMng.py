@@ -70,10 +70,16 @@ class CrawlingInstagramMng(object):
 
 
     def select_first(self, strCss):
-        first = self.driver.find_element_by_css_selector(strCss) 
-        #find_element_by_css_selector 함수를 사용해 요소 찾기
-        first.click()
-        time.sleep(3) #로딩을 위해 3초 대기
+        try :
+            first = self.driver.find_element_by_css_selector(strCss) 
+            #find_element_by_css_selector 함수를 사용해 요소 찾기
+            first.click()
+            time.sleep(3) #로딩을 위해 3초 대기
+        except :
+            return False
+
+        return True
+
     
     
     def get_content(self):
@@ -97,8 +103,13 @@ class CrawlingInstagramMng(object):
         ##except:
         ##    content = ' ' 
         #tags = re.findall(r'#[^\s#,\\]+', content) # content 변수의 본문 내용 중 #으로 시작하며, #뒤에 연속된 문자(공백이나 #, \ 기호가 아닌 경우)를 모두 찾아 tags 변수에 저장
-
         #dataContent = list()
+
+        try:  			#여러 태그중 첫번째([0]) 태그를 선택  
+            strInstaId = soup.select('div.e1e1d')[0].text
+        except:
+            strInstaId = ' ' 
+
         contentTmp = str()
         try:  			#여러 태그중 첫번째([0]) 태그를 선택  
             content2 = soup.select('div.C4VMK > span')[0]
@@ -146,11 +157,42 @@ class CrawlingInstagramMng(object):
 
         #self.close_content()
 
-        data = [self.driver.current_url, contentTmp, dateValue, like, place, tags]
+        data = [self.driver.current_url, strInstaId, contentTmp, dateValue, like, place, tags]
 
         #UtillFileDirectot.WriteCsv(UtillFileDirectot.GetCurrentYMD("InstagramHash"), data)
 
         return data
+
+    def get_imageUrl(self):
+
+        imageUrl = list()
+        html = self.driver.page_source
+        soup = BeautifulSoup(html, 'lxml')
+        while(1) :
+            
+            #0이 아닌 1의 위치에 게시글의 이미지가 담겨있다!
+
+            try : 
+                imgs = soup.select('img')[1].attrs['src']
+                imageUrl.append(str(imgs))
+            except :
+                print("error" + str(self.driver.current_url))
+            #    script = soup.find('script', text=lambda t: t.startswith('window._sharedData'))
+            #    page_json = script.text.split(' = ', 1)[1].rstrip(';')
+            #    data = json.loads(page_json)
+            #
+            #    for post in data['entry_data']['TagPage'][0]['graphql']['hashtag']['edge_hashtag_to_media']['edges']:
+            #        image_src = post['node']['thumbnail_resources'][1]['src']
+            #        print(image_src)
+
+
+
+            
+
+            if self.select_first("div.coreSpriteRightChevron") is False : 
+                break
+        
+        return imageUrl
 
     def close_content(self):
         
@@ -186,8 +228,9 @@ class CrawlingInstagramMng(object):
             bsObj = BeautifulSoup(pageString, 'lxml')
         
             for link1 in bsObj.find_all(name='div', attrs={"class":"Nnq7C weEfm"}):
-                for i in range(3):
-                    title = link1.select('a')[i]
+                SelData = link1.select('a')
+                for i in range(len(SelData)):
+                    title = SelData[i]
                     real = title.attrs['href']
                     reallink.append(real)
 

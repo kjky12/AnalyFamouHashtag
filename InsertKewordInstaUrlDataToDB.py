@@ -1,5 +1,6 @@
 #-*-coding:utf-8-*-
 
+import urllib.request
 import configparser
 from CrawlingInstagramMng import *
 import UtillFileDirectot
@@ -8,7 +9,11 @@ import time
 
 ##########################################
 ####공통
-strSearchKeyword = "노은동맛집추천"
+strSearchKeyword = "전민동맛집추천"
+#데이터 저장 기본 경로
+strSaveDataPath = "InstagramHash"
+#테이블 이름, 이미지 저장 경로
+strTableName = str()
 
 
 ##########################################
@@ -21,7 +26,8 @@ strTableName = configConvert[strSearchKeyword]['ER']
 ##########################################
 ####해당 키워드에서 생성된 url을 전부 얻어온다.
 sqlc = CSqlite3()
-sqlc.ConnectDb("INSTAGRAM")
+#sqlc.ConnectDb("INSTAGRAM")
+sqlc.ConnectDb(strSaveDataPath + "\\INSTAGRAM")
 strQry = "SELECT INSTA_URL FROM {0}".format(strTableName)
 dataurl = sqlc.LoadData(strQry)
 
@@ -36,42 +42,59 @@ for url in dataurl :
     data1 = cimTemp.get_content() #게시물 정보 가져오기
 
     try :
-        strContent = data1[1]
+        strInstaId = data1[1]
+    except : 
+        strInstaId = ""
+
+    try :
+        strContent = data1[2]
     except : 
         strContent = ""
 
     try :
-        strContent_date = data1[2]
+        strContent_date = data1[3]
     except : 
         strContent_date = ""
 
     try :
-        strContent_like = data1[3]
+        strContent_like = data1[4]
     except : 
         strContent_like = ""
 
     try :
-        strContent_place = data1[4]
+        strContent_place = data1[5]
     except : 
         strContent_place = ""
 
-
     try :
-        strContent_tag = "".join(data1[5]) #어차피 해시태그여서 구분가능
+        strContent_tag = "".join(data1[6]) #어차피 해시태그여서 구분가능
     except : 
         strContent_tag = ""
 
     strQry = '''UPDATE {0} SET 
-            CONTENT = "{1}",
-            CONTENT_DATE = "{2}",
-            CONTENT_LIKE = {3},
-            CONTENT_PLACE = "{4}",
-            CONTENT_TAG = "{5}",
+            INSTA_ID = "{1}",
+            CONTENT = "{2}",
+            CONTENT_DATE = "{3}",
+            CONTENT_LIKE = {4},
+            CONTENT_PLACE = "{5}",
+            CONTENT_TAG = "{6}",
             INSERT_DATE = datetime('now')
-            WHERE INSTA_URL = "{6}" '''.format(strTableName, strContent, strContent_date,strContent_like,strContent_place, strContent_tag, url)
+            WHERE INSTA_URL = "{7}" '''.format(strTableName, strInstaId,strContent, strContent_date,strContent_like,strContent_place, strContent_tag, url)
+
+    ImageurlData = cimTemp.get_imageUrl()
 
     data.append(data1)
     sqlc.ExecuteDb(strQry)
+
+    UtillFileDirectot.CreateCurrentDateDiretory(strSaveDataPath + "\\" + strTableName)
+
+    strImageName = url.replace("/", "@")
+    Idx = 0
+    for img in ImageurlData :
+        urllib.request.urlretrieve(img, strSaveDataPath + "\\" + strTableName + "\\" +strInstaId + strImageName + "{0:03d}".format(Idx) + ".png")
+        Idx += 1
+
+    #strContentImagePath = strContent
 
 
 sqlc.DisconnectsDb()
