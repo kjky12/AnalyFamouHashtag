@@ -49,9 +49,11 @@ class CrawlingInstagramMng(object):
         self.driver.get('https://www.instagram.com/accounts/login/?source=auth_switcher')
         time.sleep(3) #웹 페이지 로드를 보장하기 위해 3초 쉬기
         
-        id_input = self.driver.find_elements_by_css_selector('#react-root > section > main > div > article > div > div > div > form > div > div > label > input')[0]
+        id_input = self.driver.find_elements_by_css_selector('#react-root > section > main > div > article > div > div > div > form > div >  div > div > label > input')[0]
+        #id_input = self.driver.find_elements_by_css_selector('#react-root > section > main > div > article > div > div > div > form > div > div > label > input')[0]
+        #id_input = self.driver.find_elements_by_css_selector('#rso > div > div > div > div > div > div.r > a > h3')[0]
         id_input.send_keys(strId)
-        password_input = self.driver.find_elements_by_css_selector('#react-root > section > main > div > article > div > div > div > form > div > div > label > input')[1]
+        password_input = self.driver.find_elements_by_css_selector('#react-root > section > main > div > article > div > div > div > form > div >div > div > label > input')[1]
         password_input.send_keys(strPassword)
         password_input.submit()
         
@@ -74,7 +76,7 @@ class CrawlingInstagramMng(object):
             first = self.driver.find_element_by_css_selector(strCss) 
             #find_element_by_css_selector 함수를 사용해 요소 찾기
             first.click()
-            time.sleep(3) #로딩을 위해 3초 대기
+            time.sleep(2) #로딩을 위해 3초 대기
         except :
             return False
 
@@ -166,14 +168,24 @@ class CrawlingInstagramMng(object):
     def get_imageUrl(self):
 
         imageUrl = list()
-        html = self.driver.page_source
-        soup = BeautifulSoup(html, 'lxml')
         while(1) :
+
+            html = self.driver.page_source
+            soup = BeautifulSoup(html, 'lxml')
+
             
             #0이 아닌 1의 위치에 게시글의 이미지가 담겨있다!
 
             try : 
                 imgs = soup.select('img')[1].attrs['src']
+                #imgs = soup.select('div.KL4Bh > img')[1].attrs['src']
+
+                #imgT = soup.select('div.eLAPa.RzuR0 > div.KL4Bh > img')
+                #for imgUnit in imgT :
+                #    imgs = imgUnit.attrs['src']
+                #    imageUrl.append(str(imgs))
+                
+                #imgs = soup.select('div.KL4Bh > img')[1].attrs['src']
                 imageUrl.append(str(imgs))
             except :
                 print("error" + str(self.driver.current_url))
@@ -192,7 +204,11 @@ class CrawlingInstagramMng(object):
             if self.select_first("div.coreSpriteRightChevron") is False : 
                 break
         
-        return imageUrl
+
+        setImg = set(imageUrl)
+        listImg = list(setImg)
+
+        return listImg
 
     def close_content(self):
         
@@ -223,6 +239,13 @@ class CrawlingInstagramMng(object):
         SCROLL_PAUSE_TIME = 1.0
         reallink = []
 
+        pageString = self.driver.page_source
+        bsObj = BeautifulSoup(pageString, 'lxml')
+
+        strContentSize = str(bsObj.select('span.g47SY')[0].text)
+        nContentSize = int(strContentSize.replace(',', ''))
+
+        nContent = 0
         while True :
             pageString = self.driver.page_source
             bsObj = BeautifulSoup(pageString, 'lxml')
@@ -244,10 +267,22 @@ class CrawlingInstagramMng(object):
                 time.sleep(SCROLL_PAUSE_TIME)
                 new_height = self.driver.execute_script("return document.body.scrollHeight")
 
-                if new_height == last_height:
-                    break
-                else:
-                    last_height = new_height
-                    continue
+                #if new_height == last_height:
+                #    break
+                #else:
+                last_height = new_height
+                #    continue
 
+
+            ##링크데이터 중복을 제거해준다!! -> 크롤링하며 얻어오는 과정에서 중복으로 입력되는 것!(스크롤내리면서 똑같은게 보일수 잇으니)
+            setlink = set(reallink)
+            reallink = list(setlink)
+
+            if nContentSize == len(reallink) :
+                break
+            
+            print("Current Count =" + str(len(reallink)) )
+           
+        print("AllSize = " + str(nContentSize) + "\tFinishCount =" + str(len(reallink)) )
+        
         return reallink;

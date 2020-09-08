@@ -7,11 +7,13 @@ from CSqlite3 import *
 
 ##########################################
 ####공통
-strSearchKeyword = "전민동맛집추천"
+strSearchKeyword = "노은동맛집"
 #데이터 저장 기본 경로
 strSaveDataPath = "InstagramHash"
 #테이블 이름, 이미지 저장 경로
 strTableName = str()
+#신규 제거 및 업데이트 여부 0:제거 후 생성, 1:이어서 처리
+NewOrContinue = 1
 
 
 
@@ -24,11 +26,11 @@ cimTemp = CrawlingInstagramMng("./chromedriver.exe")
 ##########################################
 ####로그인!
 ##계정정보를 파일에서 불러온다.
-#config = configparser.ConfigParser()
-#config.read('config.ini')
-#InstaId = config['instagram']['Id']
-#examplePass = config['instagram']['password']
-#cimTemp.LoginInstagram(InstaId, examplePass)
+config = configparser.ConfigParser()
+config.read('config.ini')
+InstaId = config['instagram']['Id']
+examplePass = config['instagram']['password']
+cimTemp.LoginInstagram(InstaId, examplePass)
 
 
 
@@ -50,26 +52,23 @@ strTableName = configConvert[strSearchKeyword]['ER']
 sqlc = CSqlite3()
 sqlc.ConnectDb(strSaveDataPath + "\\INSTAGRAM")
 
-##검색어_관련 테이블 생성
+if NewOrContinue == 0 :
+    ##검색어_관련 테이블 생성
+    try :
+        sqlc.DropTable(strTableName)
+    except :
+        print("Can't Drop Table")
+
 try :
-    sqlc.DropTable(strTableName)
+    sqlc.CreateTable(strTableName)
 except :
-    print("Can't Drop Table")
+    print("Can't Create Table")
 
-sqlc.CreateTable(strTableName)
 
-#전체 데이터 링크를 비교
-count = len(datalink)
-##링크데이터 중복을 제거해준다!! -> 크롤링하며 얻어오는 과정에서 중복으로 입력되는 것!(스크롤내리면서 똑같은게 보일수 잇으니)
-setlink = set(datalink)
-listlink = list(setlink)
-
-countCompare = len(listlink)
-
-print("count = " + str(count), "RealCount =" + str(countCompare) )
+#print("RealCount =" + str(datalink) )
 
 #여기서 데이터베이스에 링크를 모두 넣어줌...
-for link in listlink :    
+for link in datalink :    
     strQry = "INSERT INTO {0} (INSTA_URL) VALUES (\'{1}\') ".format(strTableName, link)
     print(sqlc.ExecuteDb(strQry))
 sqlc.DisconnectsDb()

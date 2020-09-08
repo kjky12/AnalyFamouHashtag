@@ -1,3 +1,13 @@
+
+##################################
+##2020-09-08 - kjky12
+얼굴인식을 위한 라이브러리 설치!!
+pip install matplotlib 
+pip install numpy
+pip install opencv-python
+
+
+
 /****************************************/
 오전 11:00 2020-08-25
 1. CreateKewordInstaUrlToDB.py : 검색어로 링크를 DB에 저장한다!
