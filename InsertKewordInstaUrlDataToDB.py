@@ -2,20 +2,34 @@
 
 import urllib.request
 import configparser
-from CrawlingInstagramMng import *
-import UtillFileDirectot
-from CSqlite3 import *
+from Utill  import CrawlingInstagramMng
+from Utill  import UtillFileDirectot
+from Utill  import CSqlite3
 import time
 
 ##########################################
 ####공통
-strSearchKeyword = "노은동맛집"
+strSearchKeyword = "이보라"
 #데이터 저장 기본 경로
 strSaveDataPath = "InstagramHash"
 #테이블 이름, 이미지 저장 경로
 strTableName = str()
 #신규 제거 및 업데이트 여부 0:제거 후 생성, 1:이어서 처리
 NewOrContinue = 1
+
+#인스타그램 데이터를 저장할 디렉토리를 만들어준다.
+UtillFileDirectot.CreateCurrentDateDiretory(strSaveDataPath)
+
+cimTemp = CrawlingInstagramMng.CrawlingInstagramMng("./chromedriver.exe")
+
+##########################################
+####로그인!
+##계정정보를 파일에서 불러온다.
+config = configparser.ConfigParser()
+config.read('config.ini')
+InstaId = config['instagram_PK']['Id']
+examplePass = config['instagram_PK']['password']
+cimTemp.LoginInstagram(InstaId, examplePass)
 
 
 ##########################################
@@ -27,7 +41,7 @@ strTableName = configConvert[strSearchKeyword]['ER']
 
 ##########################################
 ####해당 키워드에서 생성된 url을 전부 얻어온다.
-sqlc = CSqlite3()
+sqlc = CSqlite3.CSqlite3()
 #sqlc.ConnectDb("INSTAGRAM")
 sqlc.ConnectDb(strSaveDataPath + "\\INSTAGRAM")
 strQry = "SELECT INSTA_URL FROM {0}".format(strTableName)
@@ -36,7 +50,7 @@ dataurl = sqlc.LoadData(strQry)
 
 ##########################################
 ####URL을 이용해 모두 검색하여 데이터베이스에 입력한다.
-cimTemp = CrawlingInstagramMng("./chromedriver.exe")
+
 
 data = list()
 for url in dataurl :
@@ -77,7 +91,7 @@ for url in dataurl :
             INSTA_ID = "{1}",
             CONTENT = "{2}",
             CONTENT_DATE = "{3}",
-            CONTENT_LIKE = {4},
+            CONTENT_LIKE = "{4}",
             CONTENT_PLACE = "{5}",
             CONTENT_TAG = "{6}",
             INSERT_DATE = datetime('now')
