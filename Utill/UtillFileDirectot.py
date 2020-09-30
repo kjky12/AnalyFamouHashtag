@@ -10,11 +10,12 @@ def CreateCurrentDateDiretory(strPath) :
     if not(os.path.isdir(strPath)):
         os.makedirs(os.path.join(strPath))
 
+def GetFullPath() :
+    return os.getcwd() + "\\"
 
 def GetDiretoryInAllFile(strPath) :
-    path = os.getcwd() + "\\" + strPath # Curent path
-    dirCsv = os.listdir(path)
-    
+    #path = os.getcwd() + "\\" + strPath # Curent path
+    dirCsv = os.listdir(strPath)
     return dirCsv
 
 

@@ -34,6 +34,9 @@
     <Compile Include="ConfigIni.py" />
     <Compile Include="Utill\CrawlingInstagramMng.py" />
     <Compile Include="Utill\CSqlite3.py" />
+    <Compile Include="Utill\FaceDetector.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Utill\GoogleVisionApi.py" />
     <Compile Include="Utill\UtillFileDirectot.py" />
     <Compile Include="참고.py" />

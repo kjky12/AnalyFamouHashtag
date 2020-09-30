@@ -26,14 +26,20 @@ configConvert.read('ConvertKR_EN.ini', encoding='utf-8')
 strTableName = configConvert[strSearchKeyword]['ER']
 strUserId = configConvert[strSearchKeyword]['USER_ID']
 
-
-strPath = strSaveDataPath +"\\"+ strTableName + "\\"
+strFullPath =  UtillFileDirectot.GetFullPath()
+strPath = strFullPath + strSaveDataPath +"\\"+ strTableName + "\\"
 strFileNames = UtillFileDirectot.GetDiretoryInAllFile(strPath)
 
 
 for strFileNameUnit in strFileNames :
+
+    #GoogleVisionApi.GoogleVisionAPI(strPath + strFileNameUnit)
+
+    if(strFileNameUnit.find(".") == -1) :
+        continue
+
     print(strFileNameUnit)
-    GoogleVisionApi.run_quickstart(strPath + strFileNameUnit)
+    GoogleVisionApi.run_quickstart(strPath, strFileNameUnit)
     print("\n\n")
     
 

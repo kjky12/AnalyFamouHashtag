@@ -107,7 +107,7 @@ for url in dataurl :
     strImageName = url.replace("/", "@")
     Idx = 0
     for img in ImageurlData :
-        urllib.request.urlretrieve(img, strSaveDataPath + "\\" + strTableName + "\\" +strInstaId + strImageName + "{0:03d}".format(Idx) + ".png")
+        urllib.request.urlretrieve(img, strSaveDataPath + "\\" + strTableName + "\\" +strInstaId + strImageName + "C{0:03d}".format(Idx) + ".png")
         Idx += 1
 
     #strContentImagePath = strContent
