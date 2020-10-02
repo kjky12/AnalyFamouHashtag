@@ -13,8 +13,11 @@ Utill/CSqlite3.py : DB를 관리하는 파이썬 코드(쿼리문을 통해 테�
 Utill/GoogleVisionApi.py : GOOGLE CLOUD vision api를 이용해서 얼굴, 라벨 등을 처리해준다.
 Utill/UtillFileDirectot.py : 파일 관리 및 디렉토리 관리 함수를 제공한다.
 
-
-
+##################################
+##2020-10-02 - kjky12
+텐서플로우 관리 프로젝트 생성!
+pip install --upgrade tensorflow
+pip install --upgrade tensorflow-gpu -> 이건 해야될지 잘 모르겟음...
 
 ##################################
 ##2020-09-29 - kjky12

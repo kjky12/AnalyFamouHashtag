@@ -7,6 +7,10 @@ from google.cloud.vision import types
 from PIL import Image
 from PIL import ImageDraw
 
+from Utill  import UtillFileDirectot
+
+
+
 likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE',
                        'LIKELY', 'VERY_LIKELY')
 
@@ -15,9 +19,12 @@ likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE',
 IMAGE_SIZE = 96,96
 #global_image_hash
 
-def draw_hint(strFullPath, image_file, vects, outputPath):
+def draw_hint(strFullPath, image_file, vects, strOutputPath):
     """Draw a border around the image using the hints in the vector list."""
     #vects = get_crop_hint(strFullPath + image_file)
+
+    #디렉토리가 없으면 만들어준다.
+    UtillFileDirectot.CreateCurrentDateDiretory(strOutputPath)
 
     im = Image.open(strFullPath + image_file)
 
@@ -39,15 +46,18 @@ def draw_hint(strFullPath, image_file, vects, outputPath):
             vects[3].x, vects[3].y], None, 'red')
     
     #image_file.replace(".png", ".jpg")
-    #im.save(outputPath + image_file, 'JPEG')
-    im.save(outputPath + image_file, 'png')
+    #im.save(strOutputPath + image_file, 'JPEG')
+    im.save(strOutputPath + image_file, 'png')
 
     im.close()
 
     print('Saved new image to {}'.format(image_file))
 
-def crop_to_hint(strFullPath, image_file, vects, outputPath):
+def crop_to_hint(strFullPath, image_file, vects, strOutputPath):
     """Crop the image using the hints in the vector list."""
+
+    #디렉토리가 없으면 만들어준다.
+    UtillFileDirectot.CreateCurrentDateDiretory(strOutputPath)
 
     im = Image.open(strFullPath + image_file)
 
@@ -57,9 +67,12 @@ def crop_to_hint(strFullPath, image_file, vects, outputPath):
         for vect in vects :
             im2 = im.crop([vect[0].x, vect[0].y,
                 vect[2].x - 1, vect[2].y - 1])
+
+            # 크기를 IMAGE_SIZE로 변환해서 저장해줌(학습을 위해 같은 크기로!)
+            im2 = im2.resize(IMAGE_SIZE,Image.ANTIALIAS)
             
             image_file = image_file.replace(".png", "") + "F{0:03d}".format(nCnt) + ".png"
-            im2.save(outputPath + image_file, 'png')
+            im2.save(strOutputPath + image_file, 'png')
 
             nCnt += 1
 
@@ -69,8 +82,12 @@ def crop_to_hint(strFullPath, image_file, vects, outputPath):
     else :
         im2 = im.crop([vect[0].x, vect[0].y,
                 vect[2].x - 1, vect[2].y - 1])
+
+        # 크기를 IMAGE_SIZE로 변환해서 저장해줌(학습을 위해 같은 크기로!)
+        im2 = im2.resize(IMAGE_SIZE,Image.ANTIALIAS)
+
         image_file = image_file.replace(".png", "") + "F{0:03d}".format(nCnt) + ".png"
-        im2.save(outputPath + image_file, 'png')
+        im2.save(strOutputPath + image_file, 'png')
 
         im2.close()
 
@@ -202,7 +219,7 @@ def run_quickstart(strPath, strFile_name) :
 
             listVertex.append(face.bounding_poly.vertices)
         
-        draw_hint(strPath, strFile_name, listVertex, strPath + "FACE\\")
+        #draw_hint(strPath, strFile_name, listVertex, strPath + "FACE\\")
         crop_to_hint(strPath, strFile_name, listVertex, strPath + "FACE\\")
 
 

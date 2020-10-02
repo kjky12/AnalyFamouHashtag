@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>93ea4ea6-6eb8-474c-aaa4-854139ab68b0</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>ConvertRecognitionFromImg.py</StartupFile>
+    <StartupFile>ContentKewordFromInstaUrlToDB.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>

@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "AnalyFamouHashtag", "AnalyFamouHashtag.pyproj", "{93EA4EA6-6EB8-474C-AAA4-854139AB68B0}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "DeepLerningFamouHashtag", "DeepLerningFamouHashtag\DeepLerningFamouHashtag.pyproj", "{894545D4-FA26-4C60-A443-5886555F1C2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,8 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{93EA4EA6-6EB8-474C-AAA4-854139AB68B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{93EA4EA6-6EB8-474C-AAA4-854139AB68B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{894545D4-FA26-4C60-A443-5886555F1C2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{894545D4-FA26-4C60-A443-5886555F1C2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
