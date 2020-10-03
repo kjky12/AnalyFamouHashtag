@@ -262,8 +262,11 @@ class CrawlingInstagramMng(object):
             time.sleep(SCROLL_PAUSE_TIME)
             new_height = self.driver.execute_script("return document.body.scrollHeight")
 
+            #여기 들어오는게 리프래시가 잘 안되는경우..??일것임..
             if new_height == last_height:
-                self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                # 리프레시가 잘 안되는 경우가 있어서 처음으로 한번 갔다가 오면 잘되는듯하다!!
+                self.driver.execute_script("window.scrollTo(0, 100);")
+                #self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
                 time.sleep(SCROLL_PAUSE_TIME)
                 new_height = self.driver.execute_script("return document.body.scrollHeight")
 
@@ -271,6 +274,10 @@ class CrawlingInstagramMng(object):
                 #    break
                 #else:
                 last_height = new_height
+
+
+                time.sleep(5)
+
                 #    continue
 
 
