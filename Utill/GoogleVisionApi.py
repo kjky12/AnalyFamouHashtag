@@ -3,12 +3,14 @@ import os
 
 # 구글 라이브러리 import
 from google.cloud import vision
-from google.cloud.vision import types
+from google.cloud.vision_v1 import types
 from PIL import Image
 from PIL import ImageDraw
 
 from Utill  import UtillFileDirectot
 
+##구글인증 경로
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="#info\\My First Project-8c08c8e8a7ec.json"
 
 
 likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE',

@@ -14,6 +14,13 @@ Utill/GoogleVisionApi.py : GOOGLE CLOUD vision api를 이용해서 얼굴, 라�
 Utill/UtillFileDirectot.py : 파일 관리 및 디렉토리 관리 함수를 제공한다.
 
 ##################################
+##2020-10-03 - kjky12
+해당 경로에 conda의 환경을 만들어준다... 딥러닝 모듈을 위해서
+참고 : https://theorydb.github.io/dev/2020/02/14/dev-dl-setting-local-python/
+D:\Project\GIT\env
+
+
+##################################
 ##2020-10-02 - kjky12
 텐서플로우 관리 프로젝트 생성!
 pip install --upgrade tensorflow
@@ -24,6 +31,9 @@ pip install --upgrade tensorflow-gpu -> 이건 해야될지 잘 모르겟음...
 구글 비전 설치!!
 pip install --upgrade google-api-python-client
 pip install --upgrade google-cloud-vision
+pip install —upgrade setuptools
+
+pip3 install pillow
 
 
 ---------

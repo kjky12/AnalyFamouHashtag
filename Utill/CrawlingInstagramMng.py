@@ -253,18 +253,30 @@ class CrawlingInstagramMng(object):
         return  len(soup.select(strCss))
 
 
-    def ReadAllLink(self) :
+    def ReadAllLink(self, nContentCnt = 0) :
         SCROLL_PAUSE_TIME = 1.0
         reallink = []
 
         pageString = self.driver.page_source
         bsObj = BeautifulSoup(pageString, 'lxml')
 
-        strContentSize = str(bsObj.select('span.g47SY')[0].text)
-        nContentSize = int(strContentSize.replace(',', ''))
+        nContentSize = 0
+        listcontentCnt = bsObj.select('span.g47SY')
+        if len(listcontentCnt) != 0 :
+            strContentSize = str(bsObj.select('span.g47SY')[0].text)
+            nContentSize = int(strContentSize.replace(',', ''))
 
-        nContent = 0
+        #strContentSize = str(bsObj.select('span.g47SY')[0].text)
+        #nContentSize = int(strContentSize.replace(',', ''))
+
+        #더이상 새로운것들이 안 읽어지면 끝내준다.
+        nCountCheck = 0
+        nPrevlinkCnt = 0
         while True :
+
+            if nContentCnt == len(reallink) and nContentCnt != 0:
+                break
+
             pageString = self.driver.page_source
             bsObj = BeautifulSoup(pageString, 'lxml')
         
@@ -303,8 +315,23 @@ class CrawlingInstagramMng(object):
             setlink = set(reallink)
             reallink = list(setlink)
 
+
             if nContentSize == len(reallink) :
                 break
+
+            #얻은 개수와 똑같아 지면 브레이크! -> 너무 많은 경우는 개수가 없다..
+            if nPrevlinkCnt == len(reallink) :
+                nCountCheck += 1
+            else : 
+                nCountCheck = 0
+
+            if nCountCheck > 10 :
+                break
+
+            #얻은 개수와 똑같아 지면 브레이크!
+            nPrevlinkCnt = len(reallink)
+
+            
             
             print("Current Count =" + str(len(reallink)) )
            

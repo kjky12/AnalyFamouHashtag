@@ -4,14 +4,14 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>93ea4ea6-6eb8-474c-aaa4-854139ab68b0</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>ContentKewordFromInstaUrlToDB.py</StartupFile>
+    <StartupFile>ConvertRecognitionFromImg.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>AnalyFamouHashtag</Name>
     <RootNamespace>AnalyFamouHashtag</RootNamespace>
-    <InterpreterId>MSBuild|env|$(MSBuildProjectFullPath)</InterpreterId>
+    <InterpreterId>MSBuild|envCrawling|$(MSBuildProjectFullPath)</InterpreterId>
     <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

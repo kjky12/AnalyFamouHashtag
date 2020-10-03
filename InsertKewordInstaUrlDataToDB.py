@@ -9,13 +9,15 @@ import time
 
 ##########################################
 ####공통
-strSearchKeyword = "이보라"
+strSearchKeyword = "아이유"
 #데이터 저장 기본 경로
 strSaveDataPath = "InstagramHash"
 #테이블 이름, 이미지 저장 경로
 strTableName = str()
 #신규 제거 및 업데이트 여부 0:제거 후 생성, 1:이어서 처리
 NewOrContinue = 1
+#게시물 개수 제한! 0:무한, 1~n : n개
+nContentCnt = 100
 
 #인스타그램 데이터를 저장할 디렉토리를 만들어준다.
 UtillFileDirectot.CreateCurrentDateDiretory(strSaveDataPath)
@@ -27,8 +29,8 @@ cimTemp = CrawlingInstagramMng.CrawlingInstagramMng("./chromedriver.exe")
 ##계정정보를 파일에서 불러온다.
 config = configparser.ConfigParser()
 config.read('config.ini')
-InstaId = config['instagram_PK']['Id']
-examplePass = config['instagram_PK']['password']
+InstaId = config['instagram']['Id']
+examplePass = config['instagram']['password']
 cimTemp.LoginInstagram(InstaId, examplePass)
 
 

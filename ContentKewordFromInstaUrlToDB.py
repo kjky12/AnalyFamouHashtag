@@ -7,13 +7,15 @@ from Utill  import CSqlite3
 
 ##########################################
 ####공통
-strSearchKeyword = "노은동맛집"
+strSearchKeyword = "아이유"
 #데이터 저장 기본 경로
 strSaveDataPath = "InstagramHash"
 #테이블 이름, 이미지 저장 경로
 strTableName = str()
 #신규 제거 및 업데이트 여부 0:제거 후 생성, 1:이어서 처리
 NewOrContinue = 1
+#게시물 개수 제한! 0:무한, 1~n : n개
+nContentCnt = 100
 
 
 
@@ -43,7 +45,7 @@ strTableName = configConvert[strSearchKeyword]['ER']
 ####검색!!
 cimTemp.searchKeyword(strSearchKeyword) 
 ##키워드에 해당하는 모든 링크 얻기!!
-datalink = cimTemp.ReadAllLink()
+datalink = cimTemp.ReadAllLink(nContentCnt)
 
 
 

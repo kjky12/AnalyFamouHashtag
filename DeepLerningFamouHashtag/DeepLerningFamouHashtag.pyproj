@@ -11,7 +11,7 @@
     <OutputPath>.</OutputPath>
     <Name>DeepLerningFamouHashtag</Name>
     <RootNamespace>DeepLerningFamouHashtag</RootNamespace>
-    <InterpreterId>MSBuild|envTensor|$(MSBuildProjectFullPath)</InterpreterId>
+    <InterpreterId>CondaEnv|CondaEnv|tensorflow3_py37</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,15 +25,7 @@
     <Compile Include="DeepLerningFamouHashtag.py" />
   </ItemGroup>
   <ItemGroup>
-    <Interpreter Include="envTensor\">
-      <Id>envTensor</Id>
-      <Version>3.7</Version>
-      <Description>envTensor (Python 3.7 (64-bit))</Description>
-      <InterpreterPath>Scripts\python.exe</InterpreterPath>
-      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
-      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
-      <Architecture>X64</Architecture>
-    </Interpreter>
+    <InterpreterReference Include="CondaEnv|CondaEnv|tensorflow3_py37" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
