@@ -4,14 +4,15 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>93ea4ea6-6eb8-474c-aaa4-854139ab68b0</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>CreateKewordInstaUrlToDB.py</StartupFile>
+    <StartupFile>ContentKewordFromInstaUrlToDB.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>AnalyFamouHashtag</Name>
     <RootNamespace>AnalyFamouHashtag</RootNamespace>
-    <InterpreterId>MSBuild|envCrawling|$(MSBuildProjectFullPath)</InterpreterId>
+    <InterpreterId>MSBuild|env|$(MSBuildProjectFullPath)</InterpreterId>
+    <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,22 +23,22 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ConfigIni.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CrawlingInstagramMng.py">
+    <Compile Include="ConvertRecognitionFromImg.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InsertKewordInstaUrlDataToDB.py" />
-    <Compile Include="CreateKewordInstaUrlToDB.py">
+    <Compile Include="ContentKewordFromInstaUrlToDB.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CSqlite3.py">
+    <Compile Include="ContentUsrIdFromInstagUrlToDB.py" />
+    <Compile Include="ConfigIni.py" />
+    <Compile Include="Utill\CrawlingInstagramMng.py" />
+    <Compile Include="Utill\CSqlite3.py" />
+    <Compile Include="Utill\FaceDetector.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UtillFileDirectot.py">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Utill\GoogleVisionApi.py" />
+    <Compile Include="Utill\UtillFileDirectot.py" />
     <Compile Include="참고.py" />
   </ItemGroup>
   <ItemGroup>
@@ -50,9 +51,21 @@
       <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
       <Architecture>X64</Architecture>
     </Interpreter>
+    <Interpreter Include="env\">
+      <Id>env</Id>
+      <Version>3.7</Version>
+      <Description>env (Python 3.7 (64-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
+    </Interpreter>
   </ItemGroup>
   <ItemGroup>
     <Content Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utill\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
