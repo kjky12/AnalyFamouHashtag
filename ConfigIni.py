@@ -5,7 +5,7 @@ config = configparser.ConfigParser()
 config['instagram'] = {}
 example = config['instagram']
 example['ID'] = 'kjk92_IT'
-example['PASSWORD'] = 'rnworud!@#'
+example['PASSWORD'] = '***'
 
 with open('config.ini', 'w') as configfile:
     config.write(configfile)
